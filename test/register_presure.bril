@@ -1,0 +1,19 @@
+main {
+    a:int = const 1;
+    b:int = const 2;
+    cmp:bool = le a b;
+    br cmp left right;
+
+    left:
+    y:int = const 1;
+    z:int = const 10;
+    jmp end;
+
+    right:
+    q:int = mul a b;
+    i:int = const 6;
+
+    end:
+    p:int = mul a b;
+    print p cmp;
+}

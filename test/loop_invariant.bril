@@ -1,0 +1,15 @@
+main {
+    a:int = const 1;
+    b:int = const 2;
+    n:int = const 10000000000;
+    one:int = const 1;
+
+    there:
+    x:int = mul a b;
+    n:int = sub n one;
+    cmp:bool = ge n one;
+    br cmp there end;
+
+    end:
+    print n x;
+}

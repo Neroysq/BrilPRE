@@ -1,0 +1,19 @@
+main {
+    a:int = const 1;
+    b:int = const 2;
+    n:int = const 1000;
+    one:int = const 1;
+
+    here:
+    x:int = mul a b;
+    n:int = sub n one;
+    cmp:bool = ge n x;
+    br cmp here there;
+
+    there:
+    cmp:bool = ge n one;
+    br cmp here end;
+
+    end:
+    print n x;
+}

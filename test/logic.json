@@ -1,0 +1,156 @@
+{
+  "functions": [
+    {
+      "instrs": [
+        {
+          "dest": "a",
+          "op": "const",
+          "type": "int",
+          "value": 2341234
+        },
+        {
+          "dest": "b",
+          "op": "const",
+          "type": "int",
+          "value": 653266234
+        },
+        {
+          "dest": "zero",
+          "op": "const",
+          "type": "int",
+          "value": 0
+        },
+        {
+          "label": "loop"
+        },
+        {
+          "args": [
+            "b",
+            "zero"
+          ],
+          "dest": "cond",
+          "op": "gt",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "cond",
+            "final",
+            "here"
+          ],
+          "op": "br"
+        },
+        {
+          "label": "here"
+        },
+        {
+          "args": [
+            "b",
+            "a"
+          ],
+          "dest": "smaller",
+          "op": "lt",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "smaller",
+            "final",
+            "continue"
+          ],
+          "op": "br"
+        },
+        {
+          "label": "continue"
+        },
+        {
+          "args": [
+            "b",
+            "a"
+          ],
+          "dest": "c",
+          "op": "sub",
+          "type": "int"
+        },
+        {
+          "args": [
+            "c",
+            "a"
+          ],
+          "dest": "log1",
+          "op": "ge",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "a",
+            "c"
+          ],
+          "dest": "log2",
+          "op": "gt",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "log1"
+          ],
+          "dest": "log1",
+          "op": "not",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "log1",
+            "log2"
+          ],
+          "dest": "log2",
+          "op": "and",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "log1",
+            "log2"
+          ],
+          "dest": "log2",
+          "op": "or",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "c"
+          ],
+          "dest": "b",
+          "op": "id",
+          "type": "int"
+        },
+        {
+          "args": [
+            "a",
+            "b"
+          ],
+          "op": "print"
+        },
+        {
+          "args": [
+            "log2",
+            "loop",
+            "final"
+          ],
+          "op": "br"
+        },
+        {
+          "label": "final"
+        },
+        {
+          "args": [
+            "a",
+            "b"
+          ],
+          "op": "print"
+        }
+      ],
+      "name": "main"
+    }
+  ]
+}
