@@ -1,0 +1,13 @@
+main {
+    a:int = const 20;
+    n:int = const 1000;
+    cmp:bool = const true;
+    br cmp here end;
+
+    here:
+    n:int = add a a;
+
+    end:
+    a:int = add a a;
+    print n;
+}

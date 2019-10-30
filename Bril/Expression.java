@@ -50,12 +50,15 @@ public class Expression {
             }
         } else if (opName.matches("lt|gt|le|ge")) {
             // lt, gt, le, ge
+            // System.err.println(opName + " " + this.args.get(0) + " " + this.args.get(1));
             String l = args.get(0), r = args.get(1);
             if (l.compareTo(r) > 0) {
                 this.args.set(0, r);
                 this.args.set(1, l);
                 this.opName = opsite.get(opName);
+                // System.err.println(opName + " " + this.args.get(0) + " " + this.args.get(1));
             }
+
         }
     }
     static HashMap<String, String> opsite = new HashMap<>();

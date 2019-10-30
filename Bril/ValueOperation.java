@@ -13,6 +13,8 @@ public class ValueOperation extends Operation {
         this.destName = destName;
         this.type = type;
         this.args = args;
+        if (!opName.equals("id"))
+            setExp(getExp());
     }
 
     public String display() {

@@ -25,7 +25,7 @@ public class CFG {
     }
 
     public void calcAllExp() {
-        System.err.println("callAllExp");
+        // System.err.println("callAllExp");
         for (CFGBlock block : blocks) {
             if (block.instrs.size() > 0) {
                 Instruction instr = block.instrs.getFirst();
@@ -34,8 +34,8 @@ public class CFG {
                 }
             }
         }
-        allExp.display();
-        System.err.println("callAllExp end");
+        // allExp.display();
+        // System.err.println("callAllExp end");
     }
 
     public void display() {

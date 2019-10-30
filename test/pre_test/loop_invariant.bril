@@ -1,7 +1,7 @@
 main {
     a:int = const 1;
     b:int = const 2;
-    n:int = const 10000000000;
+    n:int = const 100000;
     one:int = const 1;
 
     there:

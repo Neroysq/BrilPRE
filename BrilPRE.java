@@ -47,29 +47,29 @@ public class BrilPRE implements Callable<Integer> {
     Program PREPass(Program program) {
         CFG cfg = generateCFG(program);
         System.err.println("finished cfg generation");
-        cfg.display();
+        //cfg.display();
         preprocess(cfg); // precalc usedInBlock, kill;
         System.err.println("finished preprocess");
         //pass1_anticipated(cfg);
         WorkListAnticipated.work(cfg);
         System.err.println("finished pass1");
-        cfg.displayPRE();
+        //cfg.displayPRE();
         //pass2_earliest(cfg);
         WorkListEarliest.work(cfg);
         System.err.println("finished pass2");
-        cfg.displayPRE();
+        //cfg.displayPRE();
         //pass3_postponable(cfg);
         WorkListPostponable.work(cfg);
         System.err.println("finished pass3");
         //pass4_used(cfg);
         WorkListUsed.work(cfg);
         System.err.println("finished pass4");
-        cfg.displayPRE();
+        //cfg.displayPRE();
 
         VarNameGenerator vng = new VarNameGenerator(cfg.varSet);
 
         transform(cfg, vng);
-        cfg.display();
+        //cfg.display();
         return cfgToProgram(cfg, vng);
     }
 
@@ -123,9 +123,9 @@ public class BrilPRE implements Callable<Integer> {
             }
         }
 
-        System.err.println("final block seq: ");
+        // System.err.println("final block seq: ");
         for (CFGBlock block : sortedBlocks) {
-            block.display();
+            //block.display();
             instrs.addAll(block.instrs);
         }
 
@@ -193,6 +193,9 @@ public class BrilPRE implements Callable<Integer> {
                 }
             } else if (instr instanceof ValueOperation) {
                 ValueOperation vo = (ValueOperation) instr;
+                // uniform exp
+                // vo.setExp(vo.getExp());
+
                 cur.preInfo.kill.add(vo.destName);
                 if (!vo.opName.equals("id"))
                     cur.preInfo.usedInBlock.add(vo.getExp());
@@ -225,7 +228,7 @@ public class BrilPRE implements Callable<Integer> {
             newBlock.originalNo = i;
             indexToBlock.put(i, newBlock);
             Instruction ins = funcMain.instrs.get(i);
-            System.err.println(i);
+            // System.err.println(i);
             newBlock.instrs.add(ins);
             if (ins instanceof Label) {
                 labelToBlock.put(((Label) ins).labelName, newBlock);
@@ -234,7 +237,7 @@ public class BrilPRE implements Callable<Integer> {
             cfg.blocks.add(newBlock);
         }
         cfg.calcAllExp();
-        cfg.display();
+        //cfg.display();
 
         // link nodes
         linkBlocks(cfg.entry, indexToBlock.get(0));
@@ -242,16 +245,18 @@ public class BrilPRE implements Callable<Integer> {
             Instruction ins = funcMain.instrs.get(i);
             CFGBlock thisBlock = indexToBlock.get(i);
             if (ins instanceof EffectOperation &&
-                    ((EffectOperation) ins).op.matches("jmp|br")) {
+                    ((EffectOperation) ins).op.matches("jmp|br|ret")) {
                 EffectOperation eo = (EffectOperation) ins;
                 if (eo.op.equals("br")) {
                     String l = eo.args.get(1), r = eo.args.get(2);
-                    System.err.println("br " + l + " " + r);
+                    // System.err.println("br " + l + " " + r);
                     linkBlocks(thisBlock, labelToBlock.get(l));
                     linkBlocks(thisBlock, labelToBlock.get(r));
-                } else { // jmp
+                } else if (eo.op.equals("jmp")){ // jmp
                     String l = eo.args.get(0);
                     linkBlocks(thisBlock, labelToBlock.get(l));
+                } else { //ret
+                    linkBlocks(thisBlock, indexToBlock.get(funcMain.instrs.size()));
                 }
             } else {
                 linkBlocks(thisBlock, indexToBlock.get(i + 1));

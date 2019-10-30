@@ -38,9 +38,9 @@ public class CFGBlock {
     }
 
     public static void linkBlocks(CFGBlock a, CFGBlock b) {
-        System.err.println("linking 2 blocks");
-        System.err.println(a);
-        System.err.println(b);
+        // System.err.println("linking 2 blocks");
+        // System.err.println(a);
+        // System.err.println(b);
         a.succs.add(b);
         b.preds.add(a);
     }

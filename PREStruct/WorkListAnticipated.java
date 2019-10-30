@@ -11,7 +11,7 @@ import java.util.Queue;
 public class WorkListAnticipated {
 
     static boolean update(CFG cfg, CFGBlock block) {
-        System.err.println("update " + block.originalNo);
+        //System.err.println("update " + block.originalNo);
         WorkListInfo cur = block.preInfo.anticipated;
         ExpSet orginalIn = new ExpSet(cur.in);
 
@@ -37,10 +37,10 @@ public class WorkListAnticipated {
         }
         cur.in.union(block.preInfo.usedInBlock);
 
-        System.err.println("original");
+        /*System.err.println("original");
         orginalIn.display();
         System.err.println("current");
-        cur.in.display();
+        cur.in.display();*/
         return !orginalIn.set.equals(cur.in.set); //TODO: might be wrong
     }
 
@@ -54,12 +54,12 @@ public class WorkListAnticipated {
     }
     public static void work(CFG cfg) {
         init(cfg);
-        System.err.println("finished init");
+        //System.err.println("finished init");
         LinkedList<CFGBlock> queue = new LinkedList<>(cfg.blocks);
         HashSet<CFGBlock> inque = new HashSet<>(cfg.blocks);
 
         while (queue.size() > 0) {
-            System.err.println("working");
+            //System.err.println("working");
             CFGBlock cur = queue.remove();
             inque.remove(cur);
             if (update(cfg, cur)) {
