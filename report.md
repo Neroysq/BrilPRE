@@ -67,7 +67,7 @@ along any path before defined (variables involved are reassigned).
 use(b) = set of expressions evaluated before killed in b
 def(b) = set of expressions whose related variables are reassigned in b 
 
-anticipated.out(b) = union over anticipated.in(b') for b' \in succer of b
+anticipated.out(b) = union over anticipated.in(b') for b' in successors of b
 anticipated.in(b) = (anticipated.out(b) - def(b)) union use(b)
 
 anticipated.in(exit) = empty set
@@ -79,7 +79,7 @@ An expression is *available* at a point if it is available in the usual sense
 ```
 kill(b) = set of expressions defined and not evaluated afterward
 
-available.in(b) = intersection over available.out(b') for b' is pred of b
+available.in(b) = intersection over available.out(b') for b' in predecessors of b
 available.out(b) = (available.in(b) union anticipated.in(b)) - kill(b)
 ```
 Then for each expression, 
@@ -96,12 +96,16 @@ delay the evaluation of expressions as long as possible.
 An expression is *postponable* at a point if for every path arrives this point, 
 this expression was in set `earliest` but never used.
 ```
-postponable.in(b) = intersection over postponable.out(b') for b' is pred of b
-postponable.out(b) = (postponable.in(b) U earliest(b)) - use(b)
+postponable.in(b) = intersection over postponable.out(b') for b' in successors of b
+postponable.out(b) = (postponable.in(b) union earliest(b)) - use(b)
 ``` 
 Then now we can compute points that certain expressions must be evaluated.
 ```
-latest(b) = (earliest(b) U postponable.in(b)) inter (kill(b) U not(inter (earliest(b') U postponable.in(b'))))
+latest(b) = 
+    (earliest(b) union postponable.in(b)) 
+        intersect 
+    (kill(b) union 
+        not(intersection over (earliest(b') union postponable.in(b')) for b' in successors of b))
 ``` 
 `latest(b)` intuitively indicates expressions that can be plated in b and not ok to put at some of the successors.
 
@@ -113,8 +117,8 @@ there is no need to place this evaluation.
 
 An expression is *used* at a point if it will be used along some path from this point.
 ```
-used.out(b) = union over used.in(b') for b' is succ of b
-used.in(b) = (used.out(b) U use(b)) - latest(b)
+used.out(b) = union over used.in(b') for b' in successors of b
+used.in(b) = (used.out(b) union use(b)) - latest(b)
 ``` 
 
 Finally, we insert evaluations of expressions in both `used.out(b)` and `latest(b)` 
